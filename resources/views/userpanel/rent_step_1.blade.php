@@ -32,8 +32,8 @@
                                     aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                     <option value="">Pickup Location</option>
                                     @foreach ($cities as $city)
-                                        <option value="{{ $city->city_en }}"
-                                            @if ($city->city_en == $data['picakup_location']) selected @endif>{{ $city->city_en }}
+                                        <option value="{{ $city->name }}"
+                                            @if ($city->name == $data['picakup_location']) selected @endif>{{ $city->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -62,8 +62,8 @@
                                     aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                     <option value="">Return Location</option>
                                     @foreach ($cities as $city)
-                                        <option value="{{ $city->city_en }}"
-                                            @if ($city->city_en == $data['return_location']) selected @endif>{{ $city->city_en }}
+                                        <option value="{{ $city->name }}"
+                                            @if ($city->name == $data['return_location']) selected @endif>{{ $city->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -88,7 +88,7 @@
                         @foreach ($vehicles as $key => $vehicle)
                             <label for="radio-card-{{ $key + 1 }}" class="radio-card col-4">
                                 <input type="radio" name="vehicle" id="radio-card-{{ $key + 1 }}"
-                                    @if ($key == 0) checked @endif  value="{{ $vehicle->id }}"/>
+                                    @if ($key == 0) checked @endif value="{{ $vehicle->id }}" />
                                 <div class="tuk_card position-relative">
                                     <div class="tuk_img d-flex flex-column align-items-center mb-3">
                                         <img src="{{ asset('public/frontend/images/tuk1.png') }}" alt=""
@@ -249,7 +249,7 @@
                                 </td>
                             </tr>
 
-                             <tr>
+                            <tr>
                                 <th scope="row">Tour Guide</th>
                                 <td>
                                     <select class="form-select form-select-sm shadow-none"
@@ -338,7 +338,8 @@
                                 </td>
                                 <td>
                                     $13.50
-                                    <input type="hidden" name="local_license_fee" id="local_license_fee" value="13.50">
+                                    <input type="hidden" name="local_license_fee" id="local_license_fee"
+                                        value="13.50">
                                 </td>
                             </tr>
 
@@ -352,7 +353,8 @@
                                 </td>
                                 <td>
                                     <select class="form-select form-select-sm shadow-none ms-0"
-                                        aria-label="Number of driving instructor sessions" name="instructor_additional_session_qty">
+                                        aria-label="Number of driving instructor sessions"
+                                        name="instructor_additional_session_qty">
                                         <option selected value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -361,7 +363,8 @@
                                 </td>
                                 <td>
                                     $10
-                                    <input type="hidden" name="instructor_additional_session_fee" id="instructor_additional_session_fee" value="10">
+                                    <input type="hidden" name="instructor_additional_session_fee"
+                                        id="instructor_additional_session_fee" value="10">
                                 </td>
                             </tr>
 
@@ -407,7 +410,8 @@
                                 </td>
                                 <td>
                                     $1
-                                    <input type="hidden" name="bluetooth_speakers_fee" id="bluetooth_speakers_fee" value="1">
+                                    <input type="hidden" name="bluetooth_speakers_fee" id="bluetooth_speakers_fee"
+                                        value="1">
                                 </td>
                             </tr>
 
@@ -429,7 +433,8 @@
                                 </td>
                                 <td>
                                     $1
-                                    <input type="hidden" name="tuktuk_with_seatbelts_fee" id="tuktuk_with_seatbelts_fee" value="1">
+                                    <input type="hidden" name="tuktuk_with_seatbelts_fee"
+                                        id="tuktuk_with_seatbelts_fee" value="1">
                                 </td>
                             </tr>
 

@@ -1,0 +1,199 @@
+@charset 'utf-8';
+/* CSS Document */
+
+/******************************/
+/*******common css*************/
+
+/******* fonts *********/
+
+@import url('../fonts/stylesheet_poppins.css');
+
+/******* fonts *********/
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+    font-family: 'Poppins' !important;
+}
+
+p {
+    font-size: 13px;
+    color: #3b3b3b;
+}
+
+h1 {
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    /* color: #1e1e1e !important; */
+    color: #404040 !important;
+}
+
+h2 {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    /* color: #1e1e1e !important; */
+    color: #404040 !important;
+}
+
+.alert {
+    padding: 8px !important;
+    font-size: 12px;
+}
+
+.invalid-feedback {
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+.login_note span {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+/*.login_img {*/
+/*    width: 108%;*/
+/*    z-index: 999;*/
+/*    position: relative;*/
+/*}*/
+
+.login_row {
+    min-height: 530px;
+}
+
+.bg_org {
+    background-color: #ff6d1f;
+}
+
+.login_left_div{
+    position: relative;
+    height: 100vh;
+}
+
+.login_left_div .login_img{
+    position: absolute;
+    bottom:0;
+    right: -60px;
+}
+
+.login_left_div .login_img img{
+    height: 88vh;
+}
+
+.brand_logo img{
+    width: 110px;
+    height: auto;
+}
+
+.login_form_div {
+    padding-left: 70px;
+}
+
+.login_form_div a {
+    font-size: 12px;
+    color: #3b3b3b;
+    transition: all 0.4s ease-in-out !important;
+    -webkit-transition: all 0.4s ease-in-out !important;
+}
+
+.login_form_div a:hover {
+    color: #ff6d1f !important;
+}
+
+.login_form_div p {
+    font-size: 12px;
+}
+
+.form-label {
+    font-size: 13px;
+    color: #3b3b3b;
+}
+
+.form-control {
+    font-size: 13px !important;
+}
+
+.form-control:focus {
+    border-color: #848484 !important;
+    box-shadow: none !important;
+}
+
+.login_form .form-check-label {
+    font-size: 12px;
+}
+
+.login_form .form-check-input:focus {
+    border-color: #ff6d1f !important;
+    box-shadow: none !important;
+}
+
+.form-check-input:checked {
+    background-color: #ff6d1f !important;
+    border-color: #ff6d1f !important;
+}
+
+.org_btn {
+    background-color: #662D91 !important;
+    border: none !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    padding: 12px 40px !important;
+    transition: all 0.4s ease-in-out !important;
+    -webkit-transition: all 0.4s ease-in-out !important;
+}
+
+.org_btn:hover {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: #FCD122 !important;
+    color: #404040;
+}
+
+.btn:focus-visible {
+    box-shadow: none !important;
+    background-color: #FCD122 !important;
+    color: #404040;
+}
+
+.login_row {
+    background-color: #ffffff;
+    border-radius: 10px !important;
+}
+
+.login_row .bg_org {
+    border-radius: 10px;
+}
+
+.login_row .bg-light {
+    border-radius: 0 10px 10px 0;
+}
+
+.form-floating > .form-control-plaintext ~ label::after,
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after,
+.form-floating > .form-select ~ label::after {
+    background-color: transparent !important;
+}
+
+.form-floating > label {
+    font-size: 13px;
+}
+
+.form-floating > .form-control,
+.form-floating > .form-control-plaintext,
+.form-floating > .form-select {
+    height: calc(2.5rem + calc(var(--bs-border-width) * 2)) !important;
+    min-height: calc(3.5rem + calc(var(--bs-border-width) * -5)) !important;
+}
+
+/* Media Query Start  */
+@media only screen and (max-width: 991px) {
+    .login_form_div {
+        padding: 30px;
+        border-radius: 20px;
+        background-color: #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+}
+/* Media Query End  */

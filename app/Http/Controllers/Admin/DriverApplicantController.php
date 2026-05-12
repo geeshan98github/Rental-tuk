@@ -1,0 +1,124 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Driver;
+use DB;
+use Hash;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Middleware\Middleware;
+use App\Events\LoggableEvent;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Auth;
+use App\Models\User;
+
+
+class DriverApplicantController extends Controller
+{
+    public static function middleware(): array
+    {
+        return [new Middleware('driver-applicant-list', only: ['list', 'view'])];
+    }
+
+    public function list(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+        $role = $user->role();
+
+        if ($request->ajax()) {
+            if ($role == 'Admin') {
+                $data = Driver::where('is_delete', 0)->where('approve_status', 'ongoing')->orderBy('created_at', 'asc');
+            } else {
+                $data = Driver::where('is_delete', 0)->where('approve_status', 'pending')->orderBy('created_at', 'asc');
+            }
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('view', function ($row) {
+                    $view_url = url('adminpanel/view-driver-applicant/' . encrypt($row->id) . '');
+                    $btn = '<a href="' . $view_url . '"><i class="fal fa-file"></i></a>';
+                    return $btn;
+                })
+
+                ->editColumn('created_at', function ($row) {
+                    return date('d-m-Y H:i:s', strtotime($row->created_at));
+                })
+                ->rawColumns(['view'])
+
+                ->make(true);
+        }
+
+        return view('admin.driver.list');
+    }
+
+    public function view(Request $request)
+    {
+        $id = decrypt($request->id);
+        $data = Driver::find($id);
+        return view('admin.driver.index', compact('data'));
+    }
+
+    public function sendApprovel(Request $request)
+    {
+        $data = Driver::find($request->id);
+
+        $data->update([
+            'approve_status' => 'ongoing',
+        ]);
+        return redirect()->route('driver-applicant-list')->with('success', 'Send to Approval Successfully');
+    }
+
+    public function action(Request $request)
+    {
+        $id = $request->id;
+        return view('admin.driver.action', compact('id'));
+    }
+
+    public function saveAction(Request $request)
+    {
+        $data = Driver::find($request->id);
+
+        $length = 8; // adjust the length to your needs
+        $password = Str::random($length);
+        $name = $data->first_name;
+        $email = $data->email;
+
+        $input = [
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ];
+
+        if ($request->action == 'Approve') {
+            $data->update([
+                'approve_status' => 'approved',
+            ]);
+
+            $user = User::create($input);
+
+            $user->assignRole(5);
+
+            $to_email = $user->email;
+            $bcc_email = 'geeshan@tekgeeks.net';
+            $baseUrl = config('app.url');
+
+            \Mail::send('email.account_detail_mail', ['data' => $user, 'baseUrl' => $baseUrl, 'password' => $password], function ($message) use ($to_email, $bcc_email) {
+                $message->from('rent.tuk123@gmail.com', 'Tuk Tuk');
+                $message->to($to_email)->bcc($bcc_email)->subject('Account Details');
+            });
+            return redirect()->route('driver-applicant-list')->with('success', 'Approved Successfully');
+        }
+        if ($request->action == 'Reject') {
+            $data->update([
+                'approve_status' => 'rejected',
+            ]);
+            return redirect()->route('driver-applicant-list')->with('success', 'Rejected Successfully');
+        }
+    }
+}

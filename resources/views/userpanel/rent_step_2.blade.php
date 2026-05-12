@@ -246,10 +246,13 @@
                 @endif
 
                 @php
-                    $data['local_license_fee'] = $data['local_license'] == 'yes' ? $data['local_license_fee'] * $data['trip_duration'] : 0;
+                    $data['local_license_fee'] =
+                        $data['local_license'] == 'yes' ? $data['local_license_fee'] * $data['trip_duration'] : 0;
                     $data['instructor_additional_session_fee'] =
                         $data['instructor_additional_session'] == 'yes'
-                            ? $data['instructor_additional_session_fee'] * $data['instructor_additional_session_qty'] * $data['trip_duration']
+                            ? $data['instructor_additional_session_fee'] *
+                                $data['instructor_additional_session_qty'] *
+                                $data['trip_duration']
                             : 0;
                     $data['baby_seat_fee'] =
                         $data['baby_seat'] == 'yes'
@@ -407,9 +410,9 @@
                                         readonly>
                                         <option value="" readonly selected>Select Country</option>
                                         @foreach ($contries as $country)
-                                            <option value="{{ $country->printable_name }}"
-                                                @if ($country->printable_name === Auth::guard('frontend')->user()->contry_of_residence) selected @endif>
-                                                {{ $country->printable_name }}
+                                            <option value="{{ $country->name }}"
+                                                @if ($country->name === Auth::guard('frontend')->user()->contry_of_residence) selected @endif>
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -485,8 +488,8 @@
                                     <select class="form-select shadow-none" id="country" name="country" required>
                                         <option value="" readonly selected>Select Country</option>
                                         @foreach ($contries as $country)
-                                            <option value="{{ $country->printable_name }}">
-                                                {{ $country->printable_name }}
+                                            <option value="{{ $country->name }}">
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>

@@ -4,7 +4,7 @@
     <div class="container">
         <form method="POST" class="needs-validation" novalidate id="register_form">
             @csrf
-            
+
             <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
                 <div class="col-8">
                     <h1 class="text-center">Welcome to <span class="green_text">TUKTUK!</span></h1>
@@ -37,9 +37,9 @@
                         <div class="col-6">
                             <div class="form-floating mb-3">
                                 <input type="tel" class="form-control shadow-none" id="phone_number"
-                                    name="phone_number" placeholder="Phone Number"  pattern="[0-9+\-\s]{8,15}">
+                                    name="phone_number" placeholder="Phone Number" pattern="[0-9+\-\s]{8,15}">
                                 <label for="phone_number">Phone Number</label>
-                               
+
                             </div>
                         </div>
                         <div class="col-6">
@@ -64,7 +64,7 @@
                                     id="contry_of_residence" required>
                                     <option value="">Select Country</option>
                                     @foreach ($contries as $country)
-                                        <option value="{{ $country->printable_name }}">{{ $country->printable_name }}
+                                        <option value="{{ $country->name }}">{{ $country->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -77,10 +77,10 @@
                                 <input class="form-check-input" type="checkbox" id="is_agree_terms"
                                     name="is_agree_terms" required>
                                 <label class="form-check-label d-flex" for="is_agree_terms">
-                                    I agree to TUK TUK <a href="">Terms</a> of use and <a
-                                        href="">privacy policy</a>
+                                    I agree to TUK TUK <a href="">Terms</a> of use and <a href="">privacy
+                                        policy</a>
                                 </label>
-                               
+
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">

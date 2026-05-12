@@ -51,9 +51,8 @@
                                 <div class="form-floating d-flex mb-3">
                                     <input type="text"
                                         class="datepicker_input form-control shadow-none datepicker-input"
-                                        id="check_in" placeholder="DD/MM/YYYY" autocomplete="off"
-                                        name="check_in" data-readonly="true" onchange="hideDateField(this)"
-                                        required>
+                                        id="check_in" placeholder="DD/MM/YYYY" autocomplete="off" name="check_in"
+                                        data-readonly="true" onchange="hideDateField(this)" required>
                                     <label for="check_in">Pick-Up Date</label>
                                     <i class="fa-solid fa-calendar-days"></i>
                                     <div class="invalid-feedback">Pick-Up Date is required.</div>
@@ -69,7 +68,7 @@
                                         fdprocessedid="i20ioc" required>
                                         <option value="">Pickup Location</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->city_en }}">{{ $city->city_en }}</option>
+                                            <option value="{{ $city->name }}">{{ $city->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="picakup_location">City</label>
@@ -99,7 +98,7 @@
                                         aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                         <option value="">Return Location</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->city_en }}">{{ $city->city_en }}</option>
+                                            <option value="{{ $city->name }}">{{ $city->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="return_location">City</label>

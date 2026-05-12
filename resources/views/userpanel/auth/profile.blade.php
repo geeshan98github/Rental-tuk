@@ -73,9 +73,9 @@
                                         disabled>
                                         <option value="">Select Country</option>
                                         @foreach ($contries as $country)
-                                            <option value="{{ $country->printable_name }}"
-                                                @if ($country->printable_name === $user->contry_of_residence) selected @endif>
-                                                {{ $country->printable_name }}
+                                            <option value="{{ $country->name }}"
+                                                @if ($country->name === $user->contry_of_residence) selected @endif>
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>

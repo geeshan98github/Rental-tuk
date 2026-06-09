@@ -11,6 +11,7 @@ use App\Models\Vehicle;
 use App\Models\Country;
 use App\Models\PassengerUser;
 use App\Models\Booking;
+use App\Models\ServiceFee;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -28,28 +29,43 @@ class HomeController extends Controller
     {
         $data = $request->all();
 
-        $cities = City::take(10)->get();
-        $vehicles = Vehicle::all();
-        return view('userpanel.rent_step_1', compact('data', 'cities', 'vehicles'));
+        $pickupCityId = $data['picakup_location'];
+        $branchId = City::where('id', $pickupCityId)->first()->branch_id;
+        $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
+        $vehicles = Vehicle::where('is_delete', 0)->where('status', 'Y')->where('branch_id', $branchId)->get();
+        $fees = ServiceFee::orderBy('id', 'desc')->get();
+
+        return view('userpanel.rent_step_1', compact('data', 'cities', 'vehicles', 'fees'));
     }
 
     public function bookingDetails(Request $request)
     {
-        $data = $request;
+       
+        $data = $request->all();
 
-        session()->put('booking_data', $request->all());
+        $checkboxes = [
+            'driver_requesting', 'instructor_requesting', 'guide_requesting',
+            'local_license', 'instructor_additional_session', 'baby_seat',
+            'bluetooth_speakers', 'tuktuk_with_seatbelts', 'cooler'
+        ];
+        
+        foreach($checkboxes as $chk) {
+            $data[$chk] = $data[$chk] ?? 'No';
+        }
+
+        session()->put('booking_data', $data);
 
         $contries = Country::take(10)->get();
-        $cities = City::take(10)->get();
+        $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
         $vehicle = Vehicle::where('id', $data['vehicle'])->first();
+        $pickupLocation = City::where('id', $data['picakup_location'])->first();
+        $returnLocation = City::where('id', $data['return_location'])->first();
 
-        return view('userpanel.rent_step_2', compact('data', 'cities', 'vehicle', 'contries'));
+        return view('userpanel.rent_step_2', compact('data', 'cities', 'vehicle', 'contries', 'pickupLocation', 'returnLocation'));
     }
 
     public function payment(Request $request)
     {
-
-      
         $bookingData = session()->get('booking_data');
         $data = $request->all();
 
@@ -76,10 +92,11 @@ class HomeController extends Controller
             if ($user) {
                 $user->update([
                     'phone_number' => $request->mobileNumber,
-                    'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->birthDay)->format('Y-m-d') ?? null,
+                    'date_of_birth' => $request->birthDay ? Carbon::createFromFormat('d/m/Y', $request->birthDay)->format('Y-m-d') : null,
                     'passport_image' => $uploadId,
                     'license_image' => $uploadLicense,
                 ]);
+                
                 $tripId = rand(100000, 999999);
 
                 $insertData = [
@@ -129,6 +146,7 @@ class HomeController extends Controller
 
                 return view('userpanel.payment');
             } else {
+               
                 $varification_code = rand(100000, 999999); // Generate a random verification code
                 $length = 8; // adjust the length to your needs
                 $password = Str::random($length);
@@ -148,7 +166,7 @@ class HomeController extends Controller
                 $user = PassengerUser::create($data);
 
                 $to_email = $user->email;
-                $bcc_email = 'geeshan@tekgeeks.net';
+                $bcc_email = 'geeshanmadarasinghe@gmail.com';
                 $baseUrl = config('app.url');
 
                 \Mail::send('userpanel.email.account_detail_mail', ['data' => $user, 'baseUrl' => $baseUrl, 'password' => $password], function ($message) use ($to_email, $bcc_email) {
@@ -168,9 +186,9 @@ class HomeController extends Controller
                     'return_location' => $bookingData['return_location'] ?? null,
                     'trip_duration' => $bookingData['trip_duration'] ?? null,
                     'vehicle_id' => $bookingData['vehicle'] ?? null,
-                    'extras_total' => $bookingData['extras_total'] ?? null,
-                    'sub_total' => $bookingData['sub_total'] ?? null,
-                    'grand_total' => $bookingData['grand_total'] ?? null,
+                    'extras_total' => $data['extras_total'] ?? null,
+                    'sub_total' => $data['sub_total'] ?? null,
+                    'grand_total' => $data['grand_total'] ?? null,
                     'driver_requesting' => $bookingData['driver_requesting'] ?? 'No',
                     'driver_first_lang' => $bookingData['driver_first_lang'] ?? null,
                     'driver_second_lang' => $bookingData['driver_second_lang'] ?? null,
@@ -221,6 +239,7 @@ class HomeController extends Controller
 
     public function confirmPayment(Request $request)
     {
+       
         $booking = Booking::where('id', $request->id)->first();
 
         if ($booking) {

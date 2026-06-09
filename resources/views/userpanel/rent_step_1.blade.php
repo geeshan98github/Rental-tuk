@@ -32,8 +32,8 @@
                                     aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                     <option value="">Pickup Location</option>
                                     @foreach ($cities as $city)
-                                        <option value="{{ $city->name }}"
-                                            @if ($city->name == $data['picakup_location']) selected @endif>{{ $city->name }}
+                                        <option value="{{ $city->id }}"
+                                            @if ($city->id == $data['picakup_location']) selected @endif>{{ $city->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -62,8 +62,8 @@
                                     aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                     <option value="">Return Location</option>
                                     @foreach ($cities as $city)
-                                        <option value="{{ $city->name }}"
-                                            @if ($city->name == $data['return_location']) selected @endif>{{ $city->name }}
+                                        <option value="{{ $city->id }}"
+                                            @if ($city->id == $data['return_location']) selected @endif>{{ $city->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -91,29 +91,29 @@
                                     @if ($key == 0) checked @endif value="{{ $vehicle->id }}" />
                                 <div class="tuk_card position-relative">
                                     <div class="tuk_img d-flex flex-column align-items-center mb-3">
-                                        <img src="{{ asset('public/frontend/images/tuk1.png') }}" alt=""
+                                        <img src="{{ asset('storage/app/private/' . $vehicle->thumbnail) }}" alt=""
                                             class="w-100">
-                                        <p class="fw-bold">{{ $vehicle->vehical_type }}</p>
+                                        <p class="fw-bold">{{ $vehicle->vehicleType->name }}</p>
                                         <div class="price_tag">
-                                            <p>Per day $ {{ $vehicle->rate_per_day }}</p>
+                                            <p>Per day ${{ $vehicle->vehicleType->rate_per_day }}</p>
                                         </div>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-1">
                                         <p>Fee</p>
-                                        <p> $10</p>
+                                        <p></p>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-1">
                                         <p>Deposit</p>
-                                        <p>$ {{ $vehicle->deposit_price }}</p>
+                                        <p>${{ $vehicle->vehicleType->deposit_price }}</p>
                                     </div>
 
                                     <hr>
 
                                     <div class="d-flex justify-content-between mb-1">
                                         <p class="fw-bold">Total</p>
-                                        <p class="fw-bold">$ 60</p>
+                                        <p class="fw-bold"></p>
                                     </div>
 
                                     <hr>
@@ -194,8 +194,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    $20
-                                    <input type="hidden" name="driver_fee" id="driver_fee" value="20">
+                                    
+                                       ${{ $fees->where('id', 1)->first()?->price ?? 0 }}
+                                   
+                                    <input type="hidden" name="driver_fee" id="driver_fee" value="{{ $fees->where('id', 1)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -244,8 +246,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    $20
-                                    <input type="hidden" name="instructor_fee" id="instructor_fee" value="20">
+                                    ${{ $fees->where('id', 2)->first()?->price ?? 0 }}
+                                    <input type="hidden" name="instructor_fee" id="instructor_fee" value="{{ $fees->where('id', 2)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -292,8 +294,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    $20
-                                    <input type="hidden" name="guide_fee" id="guide_fee" value="20">
+                                    ${{ $fees->where('id', 3)->first()?->price ?? 0 }}
+                                    <input type="hidden" name="guide_fee" id="guide_fee" value="{{ $fees->where('id', 3)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -337,9 +339,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    $13.50
+                                    ${{ $fees->where('id', 4)->first()?->price ?? 0 }}
                                     <input type="hidden" name="local_license_fee" id="local_license_fee"
-                                        value="13.50">
+                                        value="{{ $fees->where('id', 4)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -362,9 +364,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    $10
+                                    ${{ $fees->where('id', 5)->first()?->price ?? 0 }}
                                     <input type="hidden" name="instructor_additional_session_fee"
-                                        id="instructor_additional_session_fee" value="10">
+                                        id="instructor_additional_session_fee" value="{{ $fees->where('id', 5)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -386,8 +388,8 @@
                                     </select>
                                 </td>
                                 <td>
-                                    $1.50
-                                    <input type="hidden" name="baby_seat_fee" id="baby_seat_fee" value="1.50">
+                                    ${{ $fees->where('id', 6)->first()?->price ?? 0 }}
+                                    <input type="hidden" name="baby_seat_fee" id="baby_seat_fee" value="{{ $fees->where('id', 6)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -409,9 +411,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    $1
+                                    ${{ $fees->where('id', 7)->first()?->price ?? 0 }}
                                     <input type="hidden" name="bluetooth_speakers_fee" id="bluetooth_speakers_fee"
-                                        value="1">
+                                        value="{{ $fees->where('id', 7)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -432,9 +434,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    $1
+                                    ${{ $fees->where('id', 8)->first()?->price ?? 0 }}
                                     <input type="hidden" name="tuktuk_with_seatbelts_fee"
-                                        id="tuktuk_with_seatbelts_fee" value="1">
+                                        id="tuktuk_with_seatbelts_fee" value="{{ $fees->where('id', 8)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
 
@@ -457,8 +459,8 @@
                                 </td>
                                 <td>
 
-                                    $0.80
-                                    <input type="hidden" name="cooler_fee" id="cooler_fee" value="0.80">
+                                    ${{ $fees->where('id', 9)->first()?->price ?? 0 }}
+                                    <input type="hidden" name="cooler_fee" id="cooler_fee" value="{{ $fees->where('id', 9)->first()?->price ?? 0 }}">
                                 </td>
                             </tr>
                         </tbody>

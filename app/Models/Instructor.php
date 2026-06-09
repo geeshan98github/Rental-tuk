@@ -11,5 +11,10 @@ class Instructor extends Model
     protected $table = 'applicants_for_instructor';
     public $timestamps = true;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'license_number', 'year_of_experience', 'spoken_languages', 'license_image', 'police_report', 'approve_status', 'status', 'is_delete'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'license_number', 'year_of_experience', 'spoken_languages', 'license_image','user_id', 'police_report', 'approve_status', 'status', 'is_delete' ,'city_id','available_days' ];
+
+     protected $casts = [
+        'available_days' => 'array',
+    ];
+
 }

@@ -37,6 +37,50 @@ class PermissionTableSeeder extends Seeder
             'action-instructor-applicant',
             'send-approvel-instructor-applicant',
 
+            'branches-list',
+            'branches-create',
+            'branches-edit',
+            'branches-delete',
+
+            'cities-list',
+            'cities-create',
+            'cities-edit',
+            'cities-delete',
+
+            
+            'vehicle-type-list',
+            'vehicle-type-create',
+            'vehicle-type-edit',
+            'vehicle-type-delete',
+
+            'vehicle-list',
+            'vehicle-create',
+            'vehicle-edit',
+            'vehicle-delete',
+
+            
+            'service-fee-list',
+            'service-fee-create',
+            'service-fee-edit',
+            'service-fee-delete',
+
+
+            'approved-driver-list',
+            'approved-mechanic-list',
+            'approved-instructor-list',
+            'new-booking-list',
+            'accepted-booking-list',
+            
+            
+            'driver-availability-calendar',
+            'new-trip-request-list',
+            'ongoing-trip-list',
+            'completed-trip-list',
+
+            'instructor-availability-calendar',
+            'new-driving-session-request-list', 
+            'completed-driving-session-list'
+            
            
            
         ];
@@ -61,6 +105,50 @@ class PermissionTableSeeder extends Seeder
             '13',
             '13',
             '13',
+
+            '21',
+            '21',
+            '21',
+            '21',
+
+            '22',
+            '22',
+            '22',
+            '22',
+
+
+            '23',
+            '23',
+            '23',
+            '23',
+
+            '24',
+            '24',
+            '24',
+            '24',
+
+            '25',
+            '25',
+            '25',
+            '25',
+            
+
+            
+            '31',
+            '32',
+            '33',
+            '34',
+            '35',
+
+
+            '61',
+            '62',
+            '63',
+            '64',
+
+            '71',
+            '72', 
+            '73',  
         
         ];
 

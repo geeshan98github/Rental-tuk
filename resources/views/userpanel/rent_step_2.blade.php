@@ -20,7 +20,7 @@
                         <div class="col-md-4 col-6">
                             <p class="summary-label mb-0">Pick-Up Location</p>
                             <p class="summary-value"><i
-                                    class="fa-solid fa-map-marker-alt"></i>{{ $data['picakup_location'] }}</p>
+                                    class="fa-solid fa-map-marker-alt"></i>{{ $pickupLocation->name ?? '' }}</p>
                         </div>
                         <div class="col-md-4 col-12">
                             <p class="summary-label mb-0">Trip Duration</p>
@@ -36,7 +36,7 @@
                         <div class="col-md-4 col-6">
                             <p class="summary-label mb-0">Return Location</p>
                             <p class="summary-value"><i
-                                    class="fa-solid fa-map-marker-alt"></i>{{ $data['return_location'] }}</p>
+                                    class="fa-solid fa-map-marker-alt"></i>{{ $returnLocation->name ?? '' }}</p>
                         </div>
                     </div>
                 </div>
@@ -48,11 +48,11 @@
                         <div class="col-md-6 col-lg-4 mb-3">
                             <div class="tuk_card position-relative h-100">
                                 <div class="tuk_img d-flex flex-column align-items-center mb-3">
-                                    <img src="{{ asset('public/frontend/images/tuk1.png') }}" alt="Regular Tuk Tuk"
+                                    <img src="{{ asset('storage/app/private/' . $vehicle->thumbnail) }}" alt="Regular Tuk Tuk"
                                         class="w-100" style="max-height: 150px; object-fit: contain;">
-                                    <p class="fw-bold mt-2">{{ $vehicle->vehical_type }}</p>
+                                    <p class="fw-bold mt-2">{{ $vehicle->vehicleType->name }}</p>
                                     <div class="price_tag">
-                                        <p class="mb-0">Per day<br>${{ $vehicle->rate_per_day }}</p>
+                                        <p class="mb-0">Per day<br>${{ $vehicle->vehicleType->rate_per_day }}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between mb-1">
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between mb-1">
                                     <p>Deposit</p>
-                                    <p>${{ $vehicle->deposit_price }}</p>
+                                    <p>${{ $vehicle->vehicleType->deposit_price }}</p>
                                 </div>
                                 <hr class="my-2">
                                 <div class="d-flex justify-content-between mb-1">
@@ -296,7 +296,7 @@
                         <table class="table summary-table">
                             <tbody>
                                 <tr>
-                                    <td class="p">Vehicle Rental ({{ $vehicle->vehical_type }} x
+                                    <td class="p">Vehicle Rental ({{ $vehicle->vehicleType->name }} x
                                         {{ $data['trip_duration'] }} days)</td>
                                     <td class="p text-end">${{ $data['vehicle_totle_input'] }}</td>
                                 </tr>
@@ -325,28 +325,31 @@
 
                                 <tr>
                                     <td class="p">Extras Total ({{ $data['trip_duration'] }} days)</td>
-                                    <td class="p text-end">${{ $extraTotal }}</td>
-                                    <input type="hidden" name="extras_total" id="extras_total"
-                                        value="{{ $extraTotal }}">
+                                    <td class="p text-end">
+                                        ${{ $extraTotal }}
+                                        <input type="hidden" name="extras_total" id="extras_total" value="{{ $extraTotal }}">
+                                    </td>
                                 </tr>
                                 @php
                                     $subTotle = $data['vehicle_totle_input'] + $extraTotal + $serviceTotle;
                                 @endphp
                                 <tr class="border-top">
                                     <td class="p fw-bold">Subtotal</td>
-                                    <td class="p fw-bold text-end">${{ $subTotle }}</td>
-                                    <input type="hidden" name="sub_total" id="sub_total"
-                                        value="{{ $subTotle }}">
+                                    <td class="p fw-bold text-end">
+                                        ${{ $subTotle }}
+                                        <input type="hidden" name="sub_total" id="sub_total" value="{{ $subTotle }}">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p">Refundable Deposit</td>
-                                    <td class="p text-end">${{ $vehicle->deposit_price }}</td>
+                                    <td class="p text-end">${{ $vehicle->vehicleType->deposit_price }}</td>
                                 </tr>
                                 <tr class="grand-total">
                                     <td class="h5 text_dark">GRAND TOTAL</td>
-                                    <td class="h5 text_dark text-end">${{ $subTotle + $vehicle->deposit_price }}</td>
-                                    <input type="hidden" name="grand_total" id="grand_total"
-                                        value="{{ $subTotle + $vehicle->deposit_price }}">
+                                    <td class="h5 text_dark text-end">
+                                        ${{ $subTotle + $vehicle->vehicleType->deposit_price  }}
+                                        <input type="hidden" name="grand_total" id="grand_total" value="{{ $subTotle + $vehicle->vehicleType->deposit_price  }}">
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

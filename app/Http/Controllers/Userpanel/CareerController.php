@@ -23,7 +23,8 @@ class CareerController extends Controller
 
     public function driver(Request $request)
     {
-        return view('userpanel.career_driver');
+        $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
+        return view('userpanel.career_driver', compact('cities'));
     }
 
     public function saveDriver(Request $request)
@@ -37,9 +38,9 @@ class CareerController extends Controller
         $data->address = $request->appAddress;
         $data->license_number = $request->appLicenseNo;
         $data->year_of_experience = $request->appExperience;
-        $data->vehical_reg_number = $request->appTukTukRegNo;
         $language = implode(',', $request->appLanguages);
         $data->spoken_languages = $language;
+        $data->city_id = $request->city;
 
         if (!$request->file('uploadLicense') == '') {
             $uploadLicense = $request->file('uploadLicense')->getClientOriginalName();
@@ -65,7 +66,8 @@ class CareerController extends Controller
     }
     public function instructor(Request $request)
     {
-        return view('userpanel.career_instructor');
+        $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
+        return view('userpanel.career_instructor', compact('cities'));
     }
 
     public function saveInstructor(Request $request)
@@ -106,10 +108,11 @@ class CareerController extends Controller
     }
     public function mechanic(Request $request)
     {
-        return view('userpanel.carrer_mechanic');
+        $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
+        return view('userpanel.carrer_mechanic', compact('cities'));
     }
 
-     public function saveMechanic(Request $request)
+    public function saveMechanic(Request $request)
     {
         $data = new Mechanic();
 
@@ -121,7 +124,7 @@ class CareerController extends Controller
         $data->certificates = $request->appCertification;
         $data->skills = $request->appSkills;
         $data->year_of_experience = $request->appExperience;
-       
+        $data->city_id = $request->city;
 
         if (!$request->file('uploadNIC') == '') {
             $uploadNIC = $request->file('uploadNIC')->getClientOriginalName();

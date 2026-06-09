@@ -68,7 +68,7 @@
                                         fdprocessedid="i20ioc" required>
                                         <option value="">Pickup Location</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="picakup_location">City</label>
@@ -98,7 +98,7 @@
                                         aria-label="Floating label select example" fdprocessedid="i20ioc" required>
                                         <option value="">Return Location</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="return_location">City</label>

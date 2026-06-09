@@ -11,10 +11,36 @@ use Illuminate\Support\Facades\DB;
 
 class CitySeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        $cities = [['name' => 'Colombo'], ['name' => 'Kandy'], ['name' => 'Galle'], ['name' => 'Jaffna'], ['name' => 'Negombo'], ['name' => 'Trincomalee'], ['name' => 'Batticaloa'], ['name' => 'Ratnapura'], ['name' => 'Kurunegala'], ['name' => 'Anuradhapura']];
-
-        DB::table('tbl_city')->insert($cities);
+        DB::table('tbl_city')->insert([
+            [
+                'branch_id' => 1,
+                'name' => 'Colombo',
+                'status' => 'Y',
+                'is_delete' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'branch_id' => 1,
+                'name' => 'Kandy',
+                'status' => 'Y',
+                'is_delete' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'branch_id' => 2,
+                'name' => 'Galle',
+                'status' => 'Y',
+                'is_delete' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

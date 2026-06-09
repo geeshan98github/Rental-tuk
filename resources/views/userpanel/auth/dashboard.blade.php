@@ -17,7 +17,7 @@
                         <img src="@if (Auth::guard('frontend')->user()->profile_image) {{ asset('storage/app/private/' . Auth::guard('frontend')->user()->profile_image) }} @else {{ asset('public/frontend/images/profile.jpg') }} @endif" alt="Sajani Wathsala"
                             class="rounded-circle me-4" width="80" height="80">
                         <div>
-                            <p class="mb-1"><strong>Name :</strong>{{ Auth::guard('frontend')->user()->first_name }}
+                            <p class="mb-1"><strong>Name : </strong>{{ Auth::guard('frontend')->user()->first_name }}
                                 {{ Auth::guard('frontend')->user()->last_name }}</p>
                             <p class="mb-1"><strong>Email :</strong> {{ Auth::guard('frontend')->user()->email }}</p>
                             <p class="mb-0"><strong>Mobile :</strong> {{ Auth::guard('frontend')->user()->phone_number }}
@@ -68,9 +68,9 @@
                                 @foreach($bookings as $booking)
                                 <tr>
                                     <td>{{ $booking->trip_id }}</td>
-                                    <td>{{ $booking->check_in }} <br> {{ $booking->pickup_location }}</td>
-                                    <td>{{ $booking->check_out }}<br> {{ $booking->return_location }}</td>
-                                    <td>{{ $booking->vehical_number }} <br> {{ $booking->vehical_type }}</td>
+                                    <td>{{ $booking->check_in }} <br> {{$cities->where('id', $booking->pickup_location)->first()?->name ?? ''}}</td>
+                                    <td>{{ $booking->check_out }}<br> {{ $cities->where('id', $booking->return_location)->first()?->name ?? '' }}</td>
+                                    <td>{{ $booking->vehicle_number }} <br> {{ $booking->vehicle_type_name }}</td>
                                     {{-- <td class="text-center align-middle"><a href="#"
                                             class="red_link fw-bold text-uppercase w-100">EDIT</a></td> --}}
                                 </tr>

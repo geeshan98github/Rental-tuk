@@ -15,19 +15,42 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@tuktuk.net',
-            'password' => bcrypt('Tek@2023')
-        ]);
+       
 
-        $role = Role::create(['name' => 'Admin', 'guard_name' => 'web']);
+        $roles = ['Admin', 'Branch Manager', 'Drivers', 'Instructors', 'Mechanic'];
 
-        $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::all();
 
-        $role->syncPermissions($permissions);
+        foreach ($roles as $roleName) {
+            $role = Role::firstOrCreate([
+                'name' => $roleName,
+                'guard_name' => 'web',
+            ]);
 
-        // $user->assignRole([$role->id]);
-        $user->assignRole('Admin');
+            $role->syncPermissions($permissions);
+        }
+
+        // Create Admin User
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@tuktuk.net'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('Tek@2023'),
+            ],
+        );
+
+        $admin->assignRole('Admin');
+
+        // Create Branch Manager User
+        $branchManager = User::firstOrCreate(
+            ['email' => 'branchmanager@tuktuk.net'],
+            [
+                'name' => 'Branch Manager',
+                'password' => bcrypt('Tek@2023'),
+                'branch_id' => 1,
+            ],
+        );
+
+        $branchManager->assignRole('Branch Manager');
     }
 }

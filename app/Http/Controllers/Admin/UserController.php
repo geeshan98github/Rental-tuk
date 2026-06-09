@@ -19,6 +19,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use App\Models\Driver;
 use App\Models\Instructor;
 use App\Models\Mechanic;
+use App\Models\Branch;
 use Auth;
 
 
@@ -32,7 +33,8 @@ class UserController extends Controller
     public function index()
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('admin.users.index', compact('roles'));
+        $branches = Branch::where('is_delete', 0)->where('status', 'Y')->get();
+        return view('admin.users.index', compact('roles', 'branches'));
     }
 
     public function list(Request $request)
@@ -85,6 +87,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm_password',
             'roles' => 'required',
+            
         ]);
 
         try {
@@ -113,9 +116,10 @@ class UserController extends Controller
         $id = decrypt($id);
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
+        $branches = Branch::where('is_delete', 0)->where('status', 'Y')->get();
         $userRole = $user->roles->pluck('name')->first();
 
-        return view('admin.users.edit', compact('user', 'roles', 'userRole'));
+        return view('admin.users.edit', compact('user', 'roles', 'branches', 'userRole'));
     }
 
     public function update(Request $request)
@@ -130,6 +134,7 @@ class UserController extends Controller
         ]);
 
         $input = $request->all();
+       
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {

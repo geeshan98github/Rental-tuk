@@ -13,12 +13,16 @@ class City extends Model
 
 
     protected $fillable = [
-        'city_en',
-        'city_si',
-        'city_ta',
+        'name',
+        'branch_id',
         'status',
         'is_delete',
         'postal_id'
     ];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
 
 }

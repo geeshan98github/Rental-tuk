@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Booking;
+use App\Models\City;
 use DB;
 
 class FrontendAuthController extends Controller
@@ -78,9 +79,16 @@ class FrontendAuthController extends Controller
 
     public function dashboard(Request $request)
     {
-        $bookings = DB::table('bookings')->join('vehical_details', 'bookings.vehicle_id', '=', 'vehical_details.id')->where('bookings.passenger_id', Auth::user()->id)->get();
-        
-        return view('userpanel.auth.dashboard', compact('bookings'));
+        $bookings = DB::table('bookings')
+            ->select('bookings.*', 'vehicle_details.vehicle_number as vehicle_number', 'vehicle_types.name as vehicle_type_name')
+            ->join('vehicle_details', 'bookings.vehicle_id', '=', 'vehicle_details.id')
+            ->join('vehicle_types', 'vehicle_details.type_id', '=', 'vehicle_types.id')
+            ->where('bookings.passenger_id', Auth::user()->id)
+            ->get();
+
+       $cities = City::where('is_delete', 0)->where('status', 'Y')->get();
+
+        return view('userpanel.auth.dashboard', compact('bookings', 'cities'));
     }
 
     public function showRegisterForm()
@@ -145,7 +153,7 @@ class FrontendAuthController extends Controller
             ];
             $res = PassengerUser::create($data);
             $to_email = $res->email;
-            $bcc_email = 'geeshan@tekgeeks.net';
+            $bcc_email = 'geeshanmadarasinghe@gmail.com';
             $baseUrl = config('app.url');
 
             if ($res) {
@@ -212,8 +220,6 @@ class FrontendAuthController extends Controller
     {
         $user = PassengerUser::find($request->userId);
 
-       
-
         if ($user->verification_code == $request->verificationCode && $user->is_email_verified == 'Y') {
             if ($request->ajax()) {
                 return response()->json(
@@ -238,7 +244,6 @@ class FrontendAuthController extends Controller
             $user->email_verified_at = now();
             $user->is_email_verified = 'Y';
             $user->save();
-            
 
             if ($request->ajax()) {
                 return response()->json([
@@ -267,7 +272,7 @@ class FrontendAuthController extends Controller
         $user->save();
 
         $to_email = $user->email;
-        $bcc_email = 'geeshan@tekgeeks.net';
+        $bcc_email = 'geeshanmadarasinghe@gmail.com';
         $baseUrl = config('app.url');
 
         \Mail::send('userpanel.email.email_verification_mail', ['data' => $user, 'baseUrl' => $baseUrl], function ($message) use ($to_email, $bcc_email) {
@@ -456,7 +461,7 @@ class FrontendAuthController extends Controller
             $user->profile_image = $profilePic;
         }
 
-        if($request->password != '') {
+        if ($request->password != '') {
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -484,11 +489,9 @@ class FrontendAuthController extends Controller
             }
 
             $user->password = Hash::make($request->password);
-
         }
 
         $user->save();
-
 
         if ($request->ajax()) {
             return response()->json([

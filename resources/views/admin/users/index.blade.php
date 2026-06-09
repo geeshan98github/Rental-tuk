@@ -134,6 +134,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="mb-3 col-6" id="branch_div" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="branch_id">Branch <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-control" id="branch_id" name="branch_id" >
+                                             <option value="">Select Branch</option>
+                                            @foreach ($branches as $x => $val)
+                                                <option value="{{ $val->id }}">{{ $val->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="col-12">
                                     <div
@@ -168,6 +180,17 @@
                     en: 'Your password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
                 },
             });
+        });
+
+        $('#roles').on('change', function() {
+            var selectedRole = $(this).val();
+            if (selectedRole === 'Branch Manager') {
+                $('#branch_div').show();
+                $('#branch_id').attr('required', true);
+            } else {
+                $('#branch_div').hide();
+                $('#branch_id').attr('required', false);
+            }
         });
     </script>
 @stop

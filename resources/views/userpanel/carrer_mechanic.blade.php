@@ -4,7 +4,7 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
- @if (session()->has('success'))
+                @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -56,8 +56,9 @@
                 <!-- Application Form Section -->
                 <section class="bg_light p-4 p-md-5 rounded shadow mb-4" id="applyForm" data-aos="fade-up">
                     <h1 class="text-center mb-5">Apply for this Position</h1>
-                    <form id="mechanicForm" action="{{ route('save-mechanic') }}" method="POST"  enctype="multipart/form-data">
-                         @csrf
+                    <form id="mechanicForm" action="{{ route('save-mechanic') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
                         <div class="row mb-5">
                             <h5 class="text_dark fw-bold mb-3">Personal Information</h5>
                             <div class="col-md-6">
@@ -88,11 +89,22 @@
                                     <label for="appMobile">Mobile Number*</label>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control shadow-none" id="appAddress"
                                         name="appAddress" placeholder="Current Address" required>
                                     <label for="appAddress">Current Address*</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select shadow-none" id="city" name="city" required>
+                                        <option selected disabled value="">Nearest City*</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="city">Nearest City*</label>
                                 </div>
                             </div>
                         </div>
@@ -116,8 +128,8 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <textarea class="form-control shadow-none" id="appSkills" name="appSkills" placeholder="Briefly describe your skills..."
-                                        style="height: 100px;"></textarea>
+                                    <textarea class="form-control shadow-none" id="appSkills" name="appSkills"
+                                        placeholder="Briefly describe your skills..." style="height: 100px;"></textarea>
                                     <label for="appSkills">Key Skills & Specializations</label>
                                 </div>
                             </div>

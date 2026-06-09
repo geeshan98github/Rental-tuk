@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\FrontendAuthController;
 use App\Http\Controllers\Userpanel\CareerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('adminpanel', function () {
+Route::get('cms-login', function () {
     return view('auth.login');
 });
 

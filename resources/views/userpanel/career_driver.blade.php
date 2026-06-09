@@ -89,11 +89,22 @@
                                     <label for="appMobile">Mobile Number*</label>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control shadow-none" id="appAddress"
                                         name="appAddress" placeholder="Current Address" required>
                                     <label for="appAddress">Current Address*</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select shadow-none" id="city" name="city" required>
+                                        <option selected disabled value="">Nearest City*</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="city">Nearest City*</label>
                                 </div>
                             </div>
                         </div>
@@ -118,13 +129,7 @@
                                     <label for="appExperience">Years of Experience*</label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control shadow-none" id="appTukTukRegNo"
-                                        name="appTukTukRegNo" placeholder="TukTuk Registration No.">
-                                    <label for="appTukTukRegNo">TukTuk Registration No. (if owner)</label>
-                                </div>
-                            </div>
+                            
                             <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <select class="form-control shadow-none" id="appLanguages" name="appLanguages[]"

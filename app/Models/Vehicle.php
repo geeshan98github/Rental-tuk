@@ -9,13 +9,20 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    protected $table = 'vehical_details';
+    protected $table = 'vehicle_details';
     public $timestamps = true;
 
     protected $fillable = [
-        'vehical_type',
-        'rate_per_day',
-        'deposit_price',
-        'vehical_number'
+        'type_id',
+        'branch_id',
+        'vehicle_number',
+        'thumbnail',
+        'status',
+        'is_delete',
     ];
+
+    public function vehicleType()
+    {
+        return $this->belongsTo(VehicleType::class, 'type_id');
+    }
 }

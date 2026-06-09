@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name='csrf-token' content='{{ csrf_token() }}'>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>TukTuk</title>
 
     <link rel='icon' type='image/png' href="{{ asset('public/back/img/favicons/favicon-96x96.png') }}" sizes='96x96' />
     <link rel='icon' type='image/svg+xml' href="{{ asset('public/back/img/favicons/favicon.svg') }}" />

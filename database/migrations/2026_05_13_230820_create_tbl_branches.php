@@ -10,12 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('vehical_details', function (Blueprint $table) {
+        Schema::create('tbl_branches', function (Blueprint $table) {
             $table->id();
-            $table->string('vehical_type');
-            $table->string('vehical_number');
-            $table->string('rate_per_day');
-            $table->string('deposit_price');
+            $table->string('name')->nullable();
+            $table->char('status', 1)->default('Y');
+            $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehical_details');
+        Schema::dropIfExists('tbl_branches');
     }
 };

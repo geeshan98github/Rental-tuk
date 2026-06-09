@@ -12,17 +12,23 @@ return new class extends Migration {
     {
         Schema::create('applicants_for_instructor', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->foreign('city_id')->references('id')->on('tbl_city')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone_number',20)->nullable();
+            $table->string('phone_number', 20)->nullable();
             $table->string('address')->nullable();
             $table->string('license_number')->nullable();
             $table->integer('year_of_experience')->nullable();
             $table->string('spoken_languages')->nullable();
             $table->string('license_image')->nullable();
             $table->string('police_report')->nullable();
-            $table->string('approve_status',20)->default('pending');
+            $table->string('approve_status', 20)->default('pending');
+            $table->char('availability', 1)->default('Y');
+             $table->string('available_days')->nullable();
             $table->char('status', 1)->default('Y');
             $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();

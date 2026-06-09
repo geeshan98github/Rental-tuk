@@ -18,7 +18,6 @@ use Illuminate\Support\Str;
 use Auth;
 use App\Models\User;
 
-
 class DriverApplicantController extends Controller
 {
     public static function middleware(): array
@@ -30,12 +29,18 @@ class DriverApplicantController extends Controller
     {
         $user = Auth::guard('web')->user();
         $role = $user->role();
+        $user_branch = $user->branch_id;
 
         if ($request->ajax()) {
             if ($role == 'Admin') {
                 $data = Driver::where('is_delete', 0)->where('approve_status', 'ongoing')->orderBy('created_at', 'asc');
-            } else {
-                $data = Driver::where('is_delete', 0)->where('approve_status', 'pending')->orderBy('created_at', 'asc');
+            }
+
+            elseif ($role == 'Branch Manager') {
+                $data = DB::table('applicants_for_driver')->join('tbl_city', 'tbl_city.id', '=', 'applicants_for_driver.city_id')->where('tbl_city.branch_id', $user_branch)->where('applicants_for_driver.is_delete', 0)->where('applicants_for_driver.approve_status', 'pending')->select('applicants_for_driver.*')->orderBy('applicants_for_driver.created_at', 'asc');
+            }else{
+                //empty data for other roles
+                $data = Driver::where('id', 0); // This will return an empty collection
             }
 
             return DataTables::of($data)
@@ -102,10 +107,14 @@ class DriverApplicantController extends Controller
 
             $user = User::create($input);
 
-            $user->assignRole(5);
+            $user->assignRole('Drivers');
+
+             $data ->update([
+                'user_id' => $user->id,
+            ]);
 
             $to_email = $user->email;
-            $bcc_email = 'geeshan@tekgeeks.net';
+            $bcc_email = 'geeshanmadarasinghe@gmail.com';
             $baseUrl = config('app.url');
 
             \Mail::send('email.account_detail_mail', ['data' => $user, 'baseUrl' => $baseUrl, 'password' => $password], function ($message) use ($to_email, $bcc_email) {

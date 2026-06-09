@@ -48,6 +48,8 @@ class Booking extends Model
         'cooler_qty',
         'passenger_id',
         'payment_status',
+        'booking_status',
+        'trip_status',
 
         
     ];

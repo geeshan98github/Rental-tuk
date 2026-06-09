@@ -29,12 +29,16 @@ class InstructorApplicantController extends Controller
     {
         $user = Auth::guard('web')->user();
         $role = $user->role();
+        $user_branch = $user->branch_id;
 
         if ($request->ajax()) {
             if ($role == 'Admin') {
                 $data = Instructor::where('is_delete', 0)->where('approve_status', 'ongoing')->orderBy('created_at', 'asc');
+            } elseif ($role == 'Branch Manager') {
+                $data = DB::table('applicants_for_instructor')->join('tbl_city', 'tbl_city.id', '=', 'applicants_for_instructor.city_id')->where('tbl_city.branch_id', $user_branch)->where('applicants_for_instructor.is_delete', 0)->where('applicants_for_instructor.approve_status', 'pending')->select('applicants_for_instructor.*')->orderBy('applicants_for_instructor.created_at', 'asc');
             } else {
-                $data = Instructor::where('is_delete', 0)->where('approve_status', 'pending')->orderBy('created_at', 'asc');
+                //empty data for other roles
+                $data = Instructor::where('id', 0); // This will return an empty collection
             }
 
             return DataTables::of($data)
@@ -101,10 +105,14 @@ class InstructorApplicantController extends Controller
 
             $user = User::create($input);
 
-            $user->assignRole(5);
+            $user->assignRole('Instructors');
+
+            $data->update([
+                'user_id' => $user->id,
+            ]);
 
             $to_email = $user->email;
-            $bcc_email = 'geeshan@tekgeeks.net';
+            $bcc_email = 'geeshanmadarasinghe@gmail.com';
             $baseUrl = config('app.url');
 
             \Mail::send('email.account_detail_mail', ['data' => $user, 'baseUrl' => $baseUrl, 'password' => $password], function ($message) use ($to_email, $bcc_email) {
